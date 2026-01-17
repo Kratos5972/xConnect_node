@@ -1,4 +1,5 @@
 import express from 'express';
+import dotenv from "dotenv";
 import router from "../src/Routers/user_routes.mjs"
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -10,11 +11,12 @@ import { users } from '../src/Data/user_data.mjs';
 import { UserSchema } from '../src/Mongoose Schema/user_schema.mjs';
 const app = express();
 const PORT = 3000;
+dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser("secretKey"));
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 60000 } // Set to true if using HTTPS
